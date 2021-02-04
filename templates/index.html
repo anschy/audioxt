@@ -6,11 +6,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 
-    <title>Guess the random number</title>
+    <title>Convert Text-To-Speech</title>
     <style>
         body {
-            background-color: aquamarine;
-            background: url(../bg.png);
+            background-color: #ffdcdc;
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -34,10 +33,14 @@
 
         }
 
-        .general {}
+        .general {
+			margin-top : 15px;
+			font-size : 25px;
+			text-align : center;
+		}
 
         .footer {
-            margin-top: 135px;
+            margin-top: 105px;
             height: 30px;
             width: auto;
             background-color: #222831;
@@ -61,7 +64,7 @@
         .form {
             text-align: center;
             margin: 10px;
-            margin-top: 15%;
+            margin-top: 8%;
         }
 
         label {
@@ -90,36 +93,51 @@
     </div>
 
     <div class="general">
-        <!--        <p>Welcome to text to speech converter website, here just type the text here in box you can listen to the text</p>-->
+        <p>Welcome to text to speech converter website </p>
+		<p>just type the text here in box and you can listen the text</p>
     </div>
 
     <div class="form">
         <form action='/predict' method="POST">
             <label for="text" style="margin: 30px;">Enter the text here</label>
             <br>
-            <input name="text" type="text" placeholder="Text...." class="validate">
+            <input name="text" type="text" placeholder="Text..." class="validate">
             <br>
+			<input name = "result_id" type = "hidden" id = "random">
             <br>
             <button type="submit" class="submit">Convert</button>
         </form>
     </div>
-    <br>
-    <h4 align="center"><b>{{pred}}</b></h4>
-    <br>
+	<br>
+	<center>
+	<audio controls>
+	<source src="https:/audioxt.heroku.app/static/{{audio}}.mp3" type="audio/mpeg">
+	</audio>
+	<center>
+	
 
-    <audio class="songthumb" control="controls">
-        <source src="{{audio}}" type="audio/mpeg" />
-    </audio>
     
-    
-    <br>
-    <h4 align="center"><b>{{sound}}</b></h4>
-    <br>
 
     <div class="footer">
-        <h1 class="footer-h">Made with ❤️ by collaboraters <a class="header-a" href="https://anschy.github.io">Anshul</a> <a class="header-a" href="#"></a></h1>
+        <h1 class="footer-h">❤️ <a class="header-a" href="#"></a> <a class="header-a" href="#"></a></h1>
     </div>
 
 </body>
+
+<script>
+function makeid(length) {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
+let result_id = document.getElementById('random');
+
+result_id.value = makeid(10);
+</script>
 
 </html>
