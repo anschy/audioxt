@@ -11,33 +11,29 @@ def index():
     return render_template('index.html')
     
     
-@app.route('/predict',methods=['POST','GET'])
+@app.route('/predict',methods=['POST','GET','PUT'])
 def work():
-    if os.path.exists("temp"):
-        if os.path.exists("temp/welcome.mp3"):
-            os.remove("temp/welcome.mp3")
-            os.rmdir("temp")
+    converted_audio = request.form.get("result_id")
+    '''
+    if os.path.exists("static"):
+        if os.path.exists(f"static/{converted_audio}.mp3"):
+            os.remove(f"static/{converted_audio}.mp3")
+            os.rmdir("static")
         else:
-            os.rmdir("temp")
+            os.rmdir("static")
     else:
-        pass
-    os.mkdir("temp")
+        os.mkdir("static")
+    '''
     from gtts import gTTS 
     text = request.form['text']
+
     myobj = gTTS(text=text, lang='en', slow=False) 
-    myobj.save("temp/welcome.mp3")
-    
-    return render_template("index.html", audio = 'temp/welcome.mp3')
-    
-    def generate():
-        with open("temp/welcome.mp3", "rb") as fwav:
-            data = fwav.read(1024)
-            while data:
-                yield data
-                data = fwav.read(1024)
-    return Response(generate(), mimetype="audio/x-mp3")
+    myobj.save(f"static/{converted_audio}.mp3")
     
     
+    return render_template("index.html", audio = converted_audio)
+    
+    os.remove(f"static/{converted_audio}.mp3")
     
 if __name__=='__main__':
     app.run(debug=True)
