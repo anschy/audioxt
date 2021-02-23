@@ -1,1 +1,1 @@
-web:sh setup.sh && run app.py
+web: run app.py
